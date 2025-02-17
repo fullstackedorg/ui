@@ -1,0 +1,12 @@
+@use "./values/typography.scss";
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+}
+
+label {
+    font-size: typography.$small;
+    font-weight: bold;
+}

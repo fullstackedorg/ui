@@ -1,6 +1,38 @@
 @use "./ui.scss";
 @use "./values/colors.scss";
+@use "./values/spacing.scss";
 
-html, body {
+html,
+body {
     background-color: colors.$blue-dark;
 }
+
+#icons {
+    display: grid;
+    width: calc(4 * 24px + 3 * spacing.$small);
+    grid-template-columns: repeat(4, 1fr);
+    gap: spacing.$small;
+    color: colors.$light;
+}
+
+#buttons {
+    display: flex;
+    gap: spacing.$small;
+    align-items: center;
+}
+
+#badges {
+    display: flex;
+    gap: spacing.$small;
+}
+
+form {
+    display: inline-flex;
+    flex-direction: column;
+    button {
+        align-self: flex-end
+    }
+}
+
+
+

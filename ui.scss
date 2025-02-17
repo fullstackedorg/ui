@@ -1,2 +1,10 @@
+@use "./globals.scss";
+
 @use "./primitives/icon/icon.scss";
 @use "./primitives/button/button.scss";
+@use "./primitives/badge/badge.scss";
+
+@use "./inputs/inputs.scss";
+
+@use "./components/button-group/button-group.scss";
+
