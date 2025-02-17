@@ -27,12 +27,25 @@ body {
 }
 
 form {
-    display: inline-flex;
+    display: flex;
+    width: 100%;
+    max-width: 300px;
     flex-direction: column;
+    gap: spacing.$small;
     button {
         align-self: flex-end
     }
 }
 
+#loader {
+    height: 24px;
+    width: 24px;
+}
 
-
+#popover {
+    width: 100%;
+    max-width: 500px;
+    display: grid;
+    gap: spacing.$medium;
+    grid-template-columns: repeat(3, 1fr)
+}
