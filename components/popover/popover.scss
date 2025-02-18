@@ -1,14 +1,7 @@
 @use "../../values/spacing.scss";
 
-html.locked {
-    overflow: hidden;
-    > body {
-        overflow: hidden
-    }
-}
-
 .popover {
-    position: fixed;
+    position: absolute;
     z-index: 11;
     padding: spacing.$x-small;
 

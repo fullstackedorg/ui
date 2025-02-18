@@ -13,8 +13,8 @@ export function Popover(opts: PopoverOpts) {
     const container = document.createElement("div");
     container.classList.add("popover");
 
-    let x = anchorBB.x;
-    let y = anchorBB.y;
+    let x = anchorBB.x + document.body.scrollLeft;
+    let y = anchorBB.y + document.body.scrollTop;
 
     switch (opts.align.x) {
         case "center":
@@ -72,7 +72,6 @@ export function Popover(opts: PopoverOpts) {
 
     let lockedElements = lockScroll(opts.anchor);
     document.body.append(overlay, container);
-
 }
 
 const lockedScroll = (e: Event) => {
@@ -96,10 +95,7 @@ function lockScroll(el: HTMLElement, lockedElements: HTMLElement[] = []) {
     el.addEventListener("keydown", lockedKeys);
     if (el.parentElement) {
         lockScroll(el.parentElement, lockedElements);
-    }
-    
-    document.documentElement.classList.add("locked");
-    
+    }    
     return lockedElements;
 }
 
@@ -110,7 +106,5 @@ function unlockScroll(els: HTMLElement[]) {
         el.removeEventListener("touchmove", lockedScroll);
         el.removeEventListener("keydown", lockedKeys);
     });
-    
-    document.documentElement.classList.remove("locked");
 }
 

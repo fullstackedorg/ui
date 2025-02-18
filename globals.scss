@@ -12,9 +12,11 @@ html,
 body {
     color: colors.$light;
     font-family: typography.$fonts;
+    margin: 0;
 
     // default is Medium font size
     font-size: typography.$medium;
+
 }
 
 h1,

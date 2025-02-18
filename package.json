@@ -2,10 +2,7 @@
     "devDependencies": {
         "eruda": "^3.4.1"
     },
-    "exports": {
-        ".": "ui.ts",
-        "./*": "./*.ts"
-    },
+    "main": "./ui.ts",
     "name": "@fullstacked/ui",
     "version": "0.0.0"
 }
