@@ -72,6 +72,7 @@ export function Popover(opts: PopoverOpts) {
 
     let lockedElements = lockScroll(opts.anchor);
     document.body.append(overlay, container);
+
 }
 
 const lockedScroll = (e: Event) => {
@@ -96,6 +97,9 @@ function lockScroll(el: HTMLElement, lockedElements: HTMLElement[] = []) {
     if (el.parentElement) {
         lockScroll(el.parentElement, lockedElements);
     }
+    
+    document.documentElement.classList.add("locked");
+    
     return lockedElements;
 }
 
@@ -106,5 +110,7 @@ function unlockScroll(els: HTMLElement[]) {
         el.removeEventListener("touchmove", lockedScroll);
         el.removeEventListener("keydown", lockedKeys);
     });
+    
+    document.documentElement.classList.remove("locked");
 }
 
