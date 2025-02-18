@@ -1,5 +1,5 @@
 lock.json
-index.scss
-index.ts
+/index.scss
+/index.ts
 .build
 *.tgz
