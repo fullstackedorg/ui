@@ -1,15 +1,3 @@
-import { setIconsDirectory } from "./primitives/icon";
-
-type Opts = {
-    iconsDirectory?: string;
-};
-
-export function init(opts?: Opts) {
-    setIconsDirectory(
-        opts?.iconsDirectory || "/node_modules/@fullstacked/ui/icons",
-    );
-}
-
 export { Icon } from "./primitives/icon";
 export { Button } from "./primitives/button";
 export { Badge } from "./primitives/badge";

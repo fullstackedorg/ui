@@ -1,4 +1,4 @@
-let iconsDirectory: string;
+let iconsDirectory: string = "/node_modules/@fullstacked/ui/icons";
 
 export function setIconsDirectory(directory: string) {
     iconsDirectory = directory;

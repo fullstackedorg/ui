@@ -1,11 +1,10 @@
 import * as UI from "./ui";
 import fs from "fs";
 import eruda from "eruda";
+import { setIconsDirectory } from "./primitives/icon";
 eruda.init();
 
-UI.init({
-    iconsDirectory: "/icons",
-});
+setIconsDirectory("/icons");
 
 const iconsGrid = document.createElement("div");
 iconsGrid.id = "icons";
