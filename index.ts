@@ -92,19 +92,14 @@ badges.append(...badgesParams.map(UI.Badge));
 const form = document.createElement("form");
 document.body.append(form);
 
-const predictions = ["some prediction", "npm install", "git log"];
+const predictions = ["", "some prediction", "npm install", "git log"];
 
 const inputPredictive = UI.InputPredictive({
     label: "Input Predictive",
     onChange: (value) => {
-        if (!value) return "";
-        const prediction = predictions.find((p) => {
-            return p.startsWith(value);
-        });
-        if (prediction) {
-            return prediction.slice(value.length);
-        }
-        return "";
+        return predictions
+            .filter((p) => p.startsWith(value))
+            .map((p) => p.slice(value.length));
     },
 });
 

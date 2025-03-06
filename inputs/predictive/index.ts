@@ -1,6 +1,6 @@
 type InputPredictiveOpts = {
     label: string;
-    onChange: (value: string) => string;
+    onChange: (value: string) => string[];
 };
 
 export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
@@ -23,6 +23,25 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
 
     const spaceRegex = new RegExp(String.fromCharCode(160), "g");
 
+    let predictions: string[] = [];
+    let predictionIndex = 0;
+
+    const prevPrediction = () => {
+        if (predictionIndex === 0) {
+            return;
+        }
+        predictionIndex -= 1;
+        prediction.innerText = predictions.at(predictionIndex);
+    };
+
+    const nextPrediction = () => {
+        if (predictionIndex === predictions.length - 1) {
+            return;
+        }
+        predictionIndex += 1;
+        prediction.innerText = predictions.at(predictionIndex);
+    };
+
     const predict = () => {
         Array.from(input.children).forEach((child) => {
             if (child.innerHTML === "" || child instanceof HTMLBRElement) {
@@ -41,15 +60,20 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
             value = value.slice(0, 0 - prevP.length);
         }
 
-        const p = opts?.onChange?.(value);
-        prediction.innerText = p || "";
+        predictions = opts?.onChange?.(value);
+        if (predictions.length) {
+            predictionIndex = 0;
+            prediction.innerText = predictions.at(predictionIndex);
+        } else {
+            prediction.innerText = "";
+        }
     };
 
     const applyPrediction = () => {
         const p = prediction?.innerText || "";
         if (p) {
             prediction.innerText = "";
-            input.innerText += p;
+            input.innerText += p + String.fromCharCode(160);
             const range = document.createRange();
             const sel = window.getSelection();
             range.setStart(input.childNodes[0], input.innerText.length);
@@ -96,13 +120,24 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         }
         setTimeout(() => (isFocused = true), 1000);
     };
-    input.onkeyup = predict;
+    input.onkeyup = (e) => {
+        const { key } = e;
+        if (key === "ArrowUp" || key === "ArrowDown") {
+            return;
+        }
+        predict();
+    };
 
     input.onkeydown = (e: KeyboardEvent) => {
         const { key } = e;
 
+        if (key === "ArrowUp" || key === "ArrowDown") {
+            e.preventDefault();
+            return key === "ArrowUp" ? prevPrediction() : nextPrediction();
+        }
+
         const prevP = prediction.innerText;
-        if (e.key === "Tab") {
+        if (e.key === "Tab" || e.key === "ArrowRight") {
             e.preventDefault();
             applyPrediction();
         } else if (prevP && key == prevP.at(0)) {
