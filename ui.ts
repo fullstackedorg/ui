@@ -1,4 +1,4 @@
-export { Icon } from "./primitives/icon";
+export { Icon, setIconsDirectory } from "./primitives/icon";
 export { Button } from "./primitives/button";
 export { Badge } from "./primitives/badge";
 
