@@ -41,6 +41,7 @@ input,
     gap: spacing.$x-small;
     font-family: typography.$fonts;
     color: colors.$light;
+    width: 100%;
 
     label > span {
         font-weight: normal;
