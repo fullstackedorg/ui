@@ -1,0 +1,19 @@
+@use "../../values/colors.scss";
+@use "../../values/spacing.scss";
+
+.list-item {
+    background-color: colors.$gray-dark;
+    border: 1px solid colors.$gray;
+    border-radius: spacing.$x-small;
+    overflow: hidden;
+    
+    > .inner {
+        padding: spacing.$small;
+    }
+    > .progress {
+        height: spacing.$x-small;
+        background-color: colors.$blue;
+        width: 0;
+        margin-top: 0 - spacing.$x-small;
+    }
+}

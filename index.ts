@@ -2,6 +2,7 @@ import * as UI from "./ui";
 import fs from "fs";
 import eruda from "eruda";
 import { setIconsDirectory } from "./primitives/icon";
+import { ListItem } from "./components/list-item";
 eruda.init();
 
 setIconsDirectory("/icons");
@@ -96,9 +97,9 @@ const predictions = ["some prediction", "npm install", "git log"];
 const inputPredictive = UI.InputPredictive({
     label: "Input Predictive",
     onChange: (value) => {
-        if(!value) return "";
+        if (!value) return "";
         const prediction = predictions.find((p) => {
-            return p.startsWith(value)
+            return p.startsWith(value);
         });
         if (prediction) {
             return prediction.slice(value.length);
@@ -286,3 +287,26 @@ popoverButtonsContainer.append(
         return b;
     }),
 );
+
+const itemWithProgress = ListItem({
+    content: "List item with progress",
+    withProgress: true,
+});
+const listItems = [
+    ListItem({
+        content: "Basic list item",
+    }),
+    itemWithProgress,
+];
+
+const list = document.createElement("div");
+list.id = "list";
+listItems.forEach((i) => {
+    if (i instanceof HTMLElement) {
+        list.append(i);
+    } else {
+        list.append(i.container);
+    }
+});
+document.body.append(list);
+itemWithProgress.setProgress(0.8);

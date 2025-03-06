@@ -49,3 +49,11 @@ form {
     gap: spacing.$medium;
     grid-template-columns: repeat(3, 1fr)
 }
+
+#list {
+    padding: spacing.$medium 0;
+    display: flex;
+    flex-direction: column;
+    gap: spacing.$small;
+    max-width: 400px;
+}
