@@ -76,7 +76,6 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         prediction.remove();
     };
     input.onfocus = () => {
-        isFocused = true;
         predict();
 
         let value = input.innerText;
@@ -95,7 +94,7 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
                 sel.addRange(range);
             });
         }
-        setTimeout(() => (isFocused = false));
+        setTimeout(() => (isFocused = true), 1000);
     };
     input.onkeyup = predict;
 
