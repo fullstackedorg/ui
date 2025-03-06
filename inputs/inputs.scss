@@ -17,7 +17,8 @@ https://www.figma.com/design/xb3JBRCvEWpbwGda03T5QQ/Mockups?node-id=158-3127
     opacity: 0;
 }
 
-input {
+input,
+.input-predictive > div {
     background-color: colors.$light;
     color: colors.$dark;
     border: 0;
@@ -33,7 +34,8 @@ input {
 
 .input-text,
 .input-file,
-.input-switch {
+.input-switch,
+.input-predictive {
     display: inline-flex;
     flex-direction: column;
     gap: spacing.$x-small;
@@ -151,3 +153,10 @@ $input-radio-size: 18px;
     }
 }
 
+.input-predictive {
+    > div {
+        > span {
+            color: colors.$gray;
+        }
+    }
+}

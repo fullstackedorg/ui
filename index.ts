@@ -91,7 +91,24 @@ badges.append(...badgesParams.map(UI.Badge));
 const form = document.createElement("form");
 document.body.append(form);
 
+const predictions = ["some prediction", "npm install", "git log"];
+
+const inputPredictive = UI.InputPredictive({
+    label: "Input Predictive",
+    onChange: (value) => {
+        if(!value) return "";
+        const prediction = predictions.find((p) => {
+            return p.startsWith(value)
+        });
+        if (prediction) {
+            return prediction.slice(value.length);
+        }
+        return "";
+    },
+});
+
 const inputs = [
+    inputPredictive,
     UI.InputText({
         label: "Input Text",
     }),
@@ -265,7 +282,7 @@ popoverButtonsContainer.id = "popover";
 document.body.append(popoverButtonsContainer);
 popoverButtonsContainer.append(
     ...popoverButtons.map((b, i) => {
-        b.onclick = () => UI.Popover(popoverParams[i])
+        b.onclick = () => UI.Popover(popoverParams[i]);
         return b;
     }),
 );
