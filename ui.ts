@@ -7,7 +7,7 @@ export { InputFile } from "./inputs/file";
 export { InputSwitch } from "./inputs/switch";
 export { InputCheckbox } from "./inputs/checkbox";
 export { InputRadio } from "./inputs/radio";
-export { InputPredictive, SPACE } from "./inputs/predictive";
+export { InputPredictive } from "./inputs/predictive";
 
 export { ButtonGroup } from "./components/button-group";
 export { Dialog } from "./components/dialog";

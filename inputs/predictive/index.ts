@@ -3,7 +3,7 @@ type InputPredictiveOpts = {
     onChange: (value: string) => string[] | Promise<string[]>;
 };
 
-export const SPACE = String.fromCharCode(160);
+const SPACE = String.fromCharCode(160);
 
 export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     const container = document.createElement("div");
@@ -70,6 +70,8 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
             predictions = onChangeResult
         }
 
+        predictions = predictions.map(p => p.replace(/ /g, SPACE))
+
         if (predictions.length) {
             predictionIndex = 0;
             prediction.innerText = predictions.at(predictionIndex);
@@ -81,7 +83,11 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     const replaceCursor = () => {
         const range = document.createRange();
         const sel = window.getSelection();
-        range.setStart(input.childNodes[0], input.innerText.length);
+        if (input.childNodes?.[0]) {
+            range.setStart(input.childNodes[0], input.innerText.length);
+        } else {
+            range.setStart(input, 0);
+        }
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
@@ -163,10 +169,21 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         }
     };
 
+    const getValue = () => {
+        const clone = input.cloneNode(true) as HTMLDivElement;
+        clone.querySelector("span")?.remove();
+        return clone.innerText.replace(spaceRegex, " ");
+    }
+
     container.append(input);
 
     return {
         container,
         input,
+        getValue,
+        clear: () => {
+            input.innerText = ""
+            replaceCursor();
+        }
     };
 }
