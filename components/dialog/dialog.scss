@@ -13,6 +13,7 @@
     align-items: flex-start;
     padding: spacing.$large spacing.$medium;
     overflow: auto;
+    z-index: 10;
 
     .dialog {
         background-color: colors.$blue-dark;
