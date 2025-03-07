@@ -1,7 +1,9 @@
 type InputPredictiveOpts = {
     label: string;
-    onChange: (value: string) => string[];
+    onChange: (value: string) => string[] | Promise<string[]>;
 };
+
+export const SPACE = String.fromCharCode(160);
 
 export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     const container = document.createElement("div");
@@ -21,7 +23,7 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     prediction.contentEditable = "false";
     input.append(prediction);
 
-    const spaceRegex = new RegExp(String.fromCharCode(160), "g");
+    const spaceRegex = new RegExp(SPACE, "g");
 
     let predictions: string[] = [];
     let predictionIndex = 0;
@@ -42,7 +44,7 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         prediction.innerText = predictions.at(predictionIndex);
     };
 
-    const predict = () => {
+    const predict = async () => {
         Array.from(input.children).forEach((child) => {
             if (child.innerHTML === "" || child instanceof HTMLBRElement) {
                 child.remove();
@@ -60,7 +62,14 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
             value = value.slice(0, 0 - prevP.length);
         }
 
-        predictions = opts?.onChange?.(value);
+        const onChangeResult = opts?.onChange?.(value);
+
+        if (onChangeResult instanceof Promise) {
+            predictions = await onChangeResult
+        } else {
+            predictions = onChangeResult
+        }
+
         if (predictions.length) {
             predictionIndex = 0;
             prediction.innerText = predictions.at(predictionIndex);
@@ -69,17 +78,21 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         }
     };
 
+    const replaceCursor = () => {
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.setStart(input.childNodes[0], input.innerText.length);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
     const applyPrediction = () => {
         const p = prediction?.innerText || "";
         if (p) {
             prediction.innerText = "";
-            input.innerText += p + String.fromCharCode(160);
-            const range = document.createRange();
-            const sel = window.getSelection();
-            range.setStart(input.childNodes[0], input.innerText.length);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
+            input.innerText += p;
+            replaceCursor();
         }
     };
 
@@ -109,14 +122,7 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         }
 
         if (value) {
-            setTimeout(() => {
-                const range = document.createRange();
-                const sel = window.getSelection();
-                range.setStart(input.childNodes[0], value.length);
-                range.collapse(true);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            });
+            setTimeout(replaceCursor);
         }
         setTimeout(() => (isFocused = true), 1000);
     };
@@ -137,7 +143,17 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         }
 
         const prevP = prediction.innerText;
-        if (e.key === "Tab" || e.key === "ArrowRight") {
+        if (e.key === "Tab") {
+            e.preventDefault();
+
+            if (prediction.innerText != "") {
+                applyPrediction();
+            } else if (input.innerText && input.innerText.at(-1) !== SPACE) {
+                input.innerText += SPACE;
+                replaceCursor();
+            }
+
+        } else if (e.key === "ArrowRight") {
             e.preventDefault();
             applyPrediction();
         } else if (prevP && key == prevP.at(0)) {
