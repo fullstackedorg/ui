@@ -84,13 +84,18 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         const range = document.createRange();
         const sel = window.getSelection();
         if (input.childNodes?.[0]) {
-            range.setStart(input.childNodes[0], input.innerText.length);
+            range.setStart(input.childNodes[0], getValue().length);
         } else {
             range.setStart(input, 0);
         }
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
+    }
+
+    const getCursorPos = () => {
+        const sel = window.getSelection();
+        return sel.anchorOffset;
     }
 
     const applyPrediction = () => {
@@ -102,9 +107,8 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         }
     };
 
-    let isFocused = false;
-    input.onclick = () => {
-        if (isFocused) applyPrediction();
+    prediction.onclick = () => {
+        applyPrediction();
     };
     input.onpaste = () => {
         prediction.innerText = "";
@@ -115,7 +119,6 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     };
 
     input.onblur = () => {
-        isFocused = false;
         prediction.remove();
     };
     input.onfocus = () => {
@@ -130,7 +133,6 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         if (value) {
             setTimeout(replaceCursor);
         }
-        setTimeout(() => (isFocused = true), 1000);
     };
     input.onkeyup = (e) => {
         const { key } = e;
@@ -159,7 +161,11 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
                 replaceCursor();
             }
 
-        } else if (e.key === "ArrowRight") {
+        } else if (
+            e.key === "ArrowRight" && 
+            prediction.innerText &&
+            getCursorPos() === getValue().length
+        ) {
             e.preventDefault();
             applyPrediction();
         } else if (prevP && key == prevP.at(0)) {
