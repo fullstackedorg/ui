@@ -18,6 +18,15 @@ const updateOverriddenInputs = () => {
         if (!fileName) return;
         fileName.innerText = file?.name || "No file chosen";
     });
+
+    const inputsSelect = document.querySelectorAll<HTMLSelectElement>("select");
+    inputsSelect.forEach((inputSelect) => {
+        if (inputSelect.selectedIndex) {
+            inputSelect.classList.remove("invalid");
+        } else {
+            inputSelect.classList.add("invalid");
+        }
+    });
 };
 
 let interval: ReturnType<typeof setInterval> = null;

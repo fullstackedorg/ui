@@ -17,6 +17,7 @@ https://www.figma.com/design/xb3JBRCvEWpbwGda03T5QQ/Mockups?node-id=158-3127
     opacity: 0;
 }
 
+select,
 input,
 .input-predictive > div {
     background-color: colors.$light;
@@ -35,7 +36,8 @@ input,
 .input-text,
 .input-file,
 .input-switch,
-.input-predictive {
+.input-predictive,
+.input-select {
     display: inline-flex;
     flex-direction: column;
     gap: spacing.$x-small;
@@ -158,6 +160,43 @@ $input-radio-size: 18px;
     > div {
         > span {
             color: colors.$gray;
+        }
+    }
+}
+
+.input-select {
+    .select-container {
+        position: relative;
+        width: 100%;
+        > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            top: 3px;
+            right: 3px;
+            height: 24px;
+            width: 24px;
+            position: absolute;
+            background-color: colors.$blue;
+            border-radius: spacing.$x-small;
+            .icon {
+                height: 16px;
+                width: 16px;
+                transform: rotate(-90deg);
+            }
+        }
+        > select {
+            -webkit-appearance: none;
+            cursor: pointer;
+            width: 100%;
+            height: 30px;
+            font-size: typography.$small;
+            box-shadow: none;
+            color: colors.$dark;
+            &.invalid {
+                color: colors.$gray;
+            }
         }
     }
 }

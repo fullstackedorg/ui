@@ -8,6 +8,7 @@ export { InputSwitch } from "./inputs/switch";
 export { InputCheckbox } from "./inputs/checkbox";
 export { InputRadio } from "./inputs/radio";
 export { InputPredictive } from "./inputs/predictive";
+export { InputSelect } from "./inputs/select";
 
 export { ButtonGroup } from "./components/button-group";
 export { Dialog } from "./components/dialog";

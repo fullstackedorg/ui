@@ -103,6 +103,21 @@ const inputPredictive = UI.InputPredictive({
     },
 });
 
+const inputSelect = UI.InputSelect({
+    label: "Input Select",
+});
+inputSelect.options.add(
+    {
+        name: "Option 1",
+    },
+    {
+        name: "Option 2",
+    },
+    {
+        name: "Option 3",
+    },
+);
+
 const inputs = [
     inputPredictive,
     UI.InputText({
@@ -116,6 +131,7 @@ const inputs = [
     }),
     UI.InputCheckbox(),
     UI.InputRadio(),
+    inputSelect
 ];
 
 form.append(...inputs.map(({ container }) => container));
