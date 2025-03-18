@@ -1,3 +1,4 @@
+import { startObserverInterval } from "../observer";
 import { Icon } from "../../ui";
 
 export type InputSelectOpts = {
@@ -7,11 +8,14 @@ export type InputSelectOpts = {
 
 export type InputSelectOption = {
     name: string;
+    id?: string;
     selected?: boolean;
     disabled?: boolean;
 };
 
 export function InputSelect(opts: Partial<InputSelectOpts>) {
+    startObserverInterval();
+
     const container = document.createElement("div");
     container.classList.add("input-select");
 
@@ -48,15 +52,56 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
         select.append(el);
     };
 
-    select.onfocus = () => {
+    const disablePlaceholder = () => {
         placeholderOption.disabled = true;
     };
+
+    select.onfocus = disablePlaceholder;
+    select.ontouchstart = disablePlaceholder;
+    select.onclick = disablePlaceholder;
     select.onblur = () => {
         placeholderOption.disabled = false;
     };
 
+    const indexOfIdOrName = (idOrName: string) => {
+        return selectOptions.findIndex((item) => {
+            if (item.id) {
+                return item.id === idOrName;
+            }
+            return item.name === idOrName;
+        });
+    };
+
+    let selectAPI = {
+        get value() {
+            const index = select.selectedIndex - 1;
+            if (index === -1) {
+                return undefined;
+            }
+            const item = selectOptions.at(index);
+            return item.id || item.name;
+        },
+        set value(v: string) {
+            const indexOf = indexOfIdOrName(v);
+            if (indexOf === -1) return;
+            select.selectedIndex = indexOf + 1;
+        },
+        onchange: (item?: string, index?: number): any => {
+            return { item, index };
+        },
+    };
+
+    select.onchange = () => {
+        const index = select.selectedIndex - 1;
+        const item = selectOptions.at(index);
+        const value = item.id || item.name;
+        selectAPI.value = value;
+        selectAPI.onchange(value, index);
+    };
+
     return {
         container,
+        select: selectAPI,
         options: {
             get() {
                 return selectOptions;
@@ -64,8 +109,17 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
             add(...options: InputSelectOption[]) {
                 options.forEach(addOptions);
             },
-            update(index: number, option: InputSelectOption) {},
-            remove(index: number) {},
+            remove(nameOrId: string) {
+                const indexOf = indexOfIdOrName(nameOrId);
+                if (indexOf === -1) return;
+
+                const selectedIndex = select.selectedIndex - 1;
+                if (indexOf === selectedIndex) {
+                    select.selectedIndex = 0;
+                }
+
+                selectOptions.splice(indexOf, 1);
+            },
         },
     };
 }
