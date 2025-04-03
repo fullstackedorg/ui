@@ -27,6 +27,7 @@ input,
     font-size: typography.$medium;
     padding: 6px;
     outline-offset: 0px;
+    width: 100%;
 
     &:focus {
         outline: 2px solid colors.$blue;
