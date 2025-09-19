@@ -72,6 +72,10 @@ export function Popover(opts: PopoverOpts) {
 
     let lockedElements = lockScroll(opts.anchor);
     document.body.append(overlay, container);
+
+    return {
+        remove
+    }
 }
 
 const lockedScroll = (e: Event) => {
