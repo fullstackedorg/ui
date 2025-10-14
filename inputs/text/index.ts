@@ -31,7 +31,7 @@ export function InputText(opts?: Partial<InputOpts>) {
         clearButton.onclick = (e) => {
             input.value = "";
             buttonContainer.classList.remove("show");
-            input.onchange?.(e);
+            input.onkeyup?.(null);
             input.focus();
         };
         buttonContainer.append(clearButton);
