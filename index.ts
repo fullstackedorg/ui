@@ -123,6 +123,10 @@ const inputs = [
     UI.InputText({
         label: "Input Text",
     }),
+    UI.InputText({
+        label: "Input Text",
+        clear: true,
+    }),
     UI.InputFile({
         label: "Input File",
     }),
@@ -131,7 +135,7 @@ const inputs = [
     }),
     UI.InputCheckbox(),
     UI.InputRadio(),
-    inputSelect
+    inputSelect,
 ];
 
 form.append(...inputs.map(({ container }) => container));
