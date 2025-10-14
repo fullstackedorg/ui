@@ -210,12 +210,15 @@ $input-radio-size: 18px;
         > .button-container {
             position: absolute;
             height: 100%;
-            display: flex;
+            display: none;
             flex-direction: column;
             justify-content: center;
             right: 0;
             top: 0;
             padding: 1px 5px 0;
+            &.show {
+                display: flex;
+            }
         }
     }
 }
