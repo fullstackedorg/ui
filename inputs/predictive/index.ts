@@ -65,12 +65,12 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         const onChangeResult = opts?.onChange?.(value);
 
         if (onChangeResult instanceof Promise) {
-            predictions = await onChangeResult
+            predictions = await onChangeResult;
         } else {
-            predictions = onChangeResult
+            predictions = onChangeResult;
         }
 
-        predictions = predictions.map(p => p.replace(/ /g, SPACE))
+        predictions = predictions.map((p) => p.replace(/ /g, SPACE));
 
         if (predictions.length) {
             predictionIndex = 0;
@@ -83,20 +83,26 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     const replaceCursor = () => {
         const range = document.createRange();
         const sel = window.getSelection();
-        if (input.childNodes?.[0]) {
+
+        const textNodes = Array.from(input.childNodes || []).filter(
+            (n) => n.nodeType === Node.TEXT_NODE,
+        );
+        if (textNodes.length) {
+            input.innerText = textNodes.map((n) => n.textContent).join("");
             range.setStart(input.childNodes[0], getValue().length);
         } else {
             range.setStart(input, 0);
         }
+
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
-    }
+    };
 
     const getCursorPos = () => {
         const sel = window.getSelection();
         return sel.anchorOffset;
-    }
+    };
 
     const applyPrediction = () => {
         const p = prediction?.innerText || "";
@@ -115,6 +121,7 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         setTimeout(() => {
             input.innerText = input.innerText;
             predict();
+            setTimeout(replaceCursor);
         });
     };
 
@@ -160,9 +167,8 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
                 input.innerText += SPACE;
                 replaceCursor();
             }
-
         } else if (
-            e.key === "ArrowRight" && 
+            e.key === "ArrowRight" &&
             prediction.innerText &&
             getCursorPos() === getValue().length
         ) {
@@ -179,7 +185,7 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         const clone = input.cloneNode(true) as HTMLDivElement;
         clone.querySelector("span")?.remove();
         return clone.innerText.replace(spaceRegex, " ");
-    }
+    };
 
     container.append(input);
 
@@ -188,8 +194,8 @@ export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
         input,
         getValue,
         clear: () => {
-            input.innerText = ""
+            input.innerText = "";
             replaceCursor();
-        }
+        },
     };
 }
