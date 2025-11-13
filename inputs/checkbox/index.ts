@@ -1,17 +1,19 @@
 import { startObserverInterval } from "../observer";
+import { inputCheckboxClass } from "./index.s";
+import { checkedClass } from "../radio/index.s";
 
 export function InputCheckbox() {
     startObserverInterval();
 
     const container = document.createElement("div");
-    container.classList.add("input-checkbox");
+    container.classList.add(inputCheckboxClass);
 
     const input = document.createElement("input");
     input.type = "checkbox";
 
     input.addEventListener("change", () => {
-        if (input.checked) container.classList.add("checked");
-        else container.classList.remove("checked");
+        if (input.checked) container.classList.add(checkedClass);
+        else container.classList.remove(checkedClass);
     });
 
     const overrideUI = document.createElement("div");

@@ -1,17 +1,18 @@
 import { startObserverInterval } from "../observer";
+import { checkedClass, inputRadioClass } from "./index.s";
 
 export function InputRadio() {
     startObserverInterval();
-    
+
     const container = document.createElement("div");
-    container.classList.add("input-radio");
+    container.classList.add(inputRadioClass);
 
     const input = document.createElement("input");
     input.type = "radio";
 
     input.addEventListener("change", () => {
-        if (input.checked) container.classList.add("checked");
-        else container.classList.remove("checked");
+        if (input.checked) container.classList.add(checkedClass);
+        else container.classList.remove(checkedClass);
     });
 
     const overrideUI = document.createElement("div");
@@ -23,6 +24,6 @@ export function InputRadio() {
 
     return {
         container,
-        input
+        input,
     };
 }

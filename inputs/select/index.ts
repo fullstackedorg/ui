@@ -1,5 +1,11 @@
 import { startObserverInterval } from "../observer";
 import { Icon } from "../../ui";
+import { inputClass } from "../index.s";
+import {
+    invalidClass,
+    selectContainerClass,
+    inputSelectClass,
+} from "./index.s";
 
 export type InputSelectOpts = {
     label: string;
@@ -17,14 +23,14 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
     startObserverInterval();
 
     const container = document.createElement("div");
-    container.classList.add("input-select");
+    container.classList.add(inputClass, inputSelectClass);
 
     if (opts.label) {
         container.innerHTML = `<label>${opts.label}</label>`;
     }
 
     const selectAndIconContainer = document.createElement("div");
-    selectAndIconContainer.classList.add("select-container");
+    selectAndIconContainer.classList.add(selectContainerClass);
     const select = document.createElement("select");
     const icon = document.createElement("div");
     icon.append(Icon("Arrow"));
@@ -36,7 +42,7 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
     placeholderOption.innerText = opts.placeholder || "Choose an option";
     select.append(placeholderOption);
 
-    select.classList.add("invalid");
+    select.classList.add(invalidClass);
 
     const selectOptions: InputSelectOption[] = [];
 

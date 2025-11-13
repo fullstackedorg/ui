@@ -1,11 +1,13 @@
 import { startObserverInterval } from "../observer";
 import { InputOpts } from "../text";
+import { inputClass } from "../index.s";
+import { checkedClass, inputSwitchClass } from "./index.s";
 
 export function InputSwitch(opts?: Partial<InputOpts>) {
     startObserverInterval();
-    
+
     const container = document.createElement("div");
-    container.classList.add("input-switch");
+    container.classList.add(inputClass, inputSwitchClass);
 
     if (opts?.label) {
         container.innerHTML = `<label>${opts.label}</label>`;
@@ -15,8 +17,8 @@ export function InputSwitch(opts?: Partial<InputOpts>) {
     input.type = "checkbox";
 
     input.addEventListener("change", () => {
-        if (input.checked) container.classList.add("checked");
-        else container.classList.remove("checked");
+        if (input.checked) container.classList.add(checkedClass);
+        else container.classList.remove(checkedClass);
     });
 
     container.append(input);
@@ -32,6 +34,6 @@ export function InputSwitch(opts?: Partial<InputOpts>) {
 
     return {
         input,
-        container
+        container,
     };
 }

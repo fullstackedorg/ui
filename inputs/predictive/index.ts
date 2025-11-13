@@ -1,3 +1,6 @@
+import { inputClass } from "../index.s";
+import { inputPredictiveClass } from "./index.s";
+
 type InputPredictiveOpts = {
     label: string;
     onChange: (value: string) => string[] | Promise<string[]>;
@@ -7,7 +10,7 @@ const SPACE = String.fromCharCode(160);
 
 export function InputPredictive(opts: Partial<InputPredictiveOpts>) {
     const container = document.createElement("div");
-    container.classList.add("input-predictive");
+    container.classList.add(inputClass, inputPredictiveClass);
 
     if (opts?.label) {
         container.innerHTML = `<label>${opts.label}</label>`;

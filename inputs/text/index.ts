@@ -1,4 +1,11 @@
 import { Button } from "../../ui";
+import { inputClass } from "../index.s";
+import {
+    inputTextButtonContainerClass,
+    inputTextButtonShowClass,
+    inputTextContainerClass,
+    inputTextClass,
+} from "./index.s";
 export type InputOpts = {
     label: string;
     clear: boolean;
@@ -6,14 +13,14 @@ export type InputOpts = {
 
 export function InputText(opts?: Partial<InputOpts>) {
     const container = document.createElement("div");
-    container.classList.add("input-text");
+    container.classList.add(inputClass, inputTextClass);
 
     if (opts?.label) {
         container.innerHTML = `<label>${opts.label}</label>`;
     }
 
     const inputContainer = document.createElement("div");
-    inputContainer.classList.add("input-container");
+    inputContainer.classList.add(inputTextContainerClass);
 
     const input = document.createElement("input");
     input.autocapitalize = "off";
@@ -22,7 +29,7 @@ export function InputText(opts?: Partial<InputOpts>) {
 
     if (opts?.clear) {
         const buttonContainer = document.createElement("div");
-        buttonContainer.classList.add("button-container");
+        buttonContainer.classList.add(inputTextButtonContainerClass);
         const clearButton = Button({
             style: "icon-small",
             iconRight: "Close",
@@ -30,16 +37,16 @@ export function InputText(opts?: Partial<InputOpts>) {
         clearButton.type = "button";
         clearButton.onclick = (e) => {
             input.value = "";
-            buttonContainer.classList.remove("show");
+            buttonContainer.classList.remove(inputTextButtonShowClass);
             input.dispatchEvent(new KeyboardEvent("keyup"));
         };
         buttonContainer.append(clearButton);
         inputContainer.append(buttonContainer);
         input.addEventListener("keyup", () => {
             if (input.value) {
-                buttonContainer.classList.add("show");
+                buttonContainer.classList.add(inputTextButtonShowClass);
             } else {
-                buttonContainer.classList.remove("show");
+                buttonContainer.classList.remove(inputTextButtonShowClass);
             }
         });
     }
