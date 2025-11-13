@@ -1,3 +1,4 @@
+import "./ui.s";
 export { Icon, setIconsDirectory } from "./primitives/icon";
 export { Button } from "./primitives/button";
 export { Badge } from "./primitives/badge";
