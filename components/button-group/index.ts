@@ -1,3 +1,4 @@
+import "./index.s";
 import { Button } from "../../primitives/button";
 
 export function ButtonGroup(buttons: ReturnType<typeof Button>[]) {
