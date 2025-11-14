@@ -1,9 +1,11 @@
+import { popoverOverlayClass, posX, posY, popoverClass } from "./index.s";
+
 type PopoverOpts = {
     anchor: HTMLElement;
     content: HTMLElement;
     align: {
-        y: "top" | "center" | "bottom";
-        x: "left" | "center" | "right";
+        y: keyof typeof posY;
+        x: keyof typeof posX;
     };
 };
 
@@ -11,29 +13,29 @@ export function Popover(opts: PopoverOpts) {
     const anchorBB = opts.anchor.getBoundingClientRect();
 
     const container = document.createElement("div");
-    container.classList.add("popover");
+    container.classList.add(popoverClass);
 
     let x = anchorBB.x + document.body.scrollLeft;
     let y = anchorBB.y + document.body.scrollTop;
 
     switch (opts.align.x) {
         case "center":
-            container.classList.add("center-x");
+            container.classList.add(posX.center);
             x += anchorBB.width / 2;
             break;
         case "right":
-            container.classList.add("right");
+            container.classList.add(posX.right);
             x += anchorBB.width;
             break;
     }
 
     switch (opts.align.y) {
         case "center":
-            container.classList.add("center-y");
+            container.classList.add(posY.center);
             y += anchorBB.height / 2;
             break;
         case "bottom":
-            container.classList.add("bottom");
+            container.classList.add(posY.bottom);
             y += anchorBB.height;
             break;
     }
@@ -42,7 +44,7 @@ export function Popover(opts: PopoverOpts) {
     container.style.top = y + "px";
 
     const overlay = document.createElement("div");
-    overlay.classList.add("popover-overlay");
+    overlay.classList.add(popoverOverlayClass);
 
     container.append(opts.content);
 
@@ -75,7 +77,7 @@ export function Popover(opts: PopoverOpts) {
 
     return {
         remove
-    }
+    };
 }
 
 const lockedScroll = (e: Event) => {
@@ -99,7 +101,7 @@ function lockScroll(el: HTMLElement, lockedElements: HTMLElement[] = []) {
     el.addEventListener("keydown", lockedKeys);
     if (el.parentElement) {
         lockScroll(el.parentElement, lockedElements);
-    }    
+    }
     return lockedElements;
 }
 
@@ -111,4 +113,3 @@ function unlockScroll(els: HTMLElement[]) {
         el.removeEventListener("keydown", lockedKeys);
     });
 }
-

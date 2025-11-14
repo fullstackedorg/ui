@@ -1,91 +1,97 @@
 import * as UI from "./ui";
 import fs from "fs";
 import eruda from "eruda";
-import { setIconsDirectory } from "./primitives/icon";
-import { ListItem } from "./components/list-item";
+import {
+    listClass,
+    popoverClass,
+    loaderClass,
+    badgesClass,
+    buttonsClass,
+    iconsClass
+} from "./index.s";
 eruda.init();
 
-setIconsDirectory("/icons");
+UI.setIconsDirectory("/icons");
 
 const iconsGrid = document.createElement("div");
-iconsGrid.id = "icons";
+iconsGrid.classList.add(iconsClass);
 document.body.append(iconsGrid);
 const icons = (await fs.readdir("/icons")).map((i) => i.split(".").shift());
 iconsGrid.append(...icons.map(UI.Icon));
 
 const buttonsParams: Parameters<typeof UI.Button>[0][] = [
     {
-        text: "Button",
+        text: "Button"
     },
     {
         text: "Button",
-        style: "text",
+        style: "text"
     },
     {
         text: "Button",
-        iconRight: "Settings",
+        iconRight: "Settings"
     },
     {
         text: "Button",
         iconLeft: "Trash",
-        color: "red",
+        color: "red"
     },
     {
         text: "Button",
         style: "text",
-        color: "red",
+        color: "red"
     },
     {
         style: "icon-large",
-        iconRight: "Play",
+        iconRight: "Play"
     },
     {
         style: "icon-small",
         iconRight: "Trash",
-        color: "red",
-    },
+        color: "red"
+    }
 ];
 
 const buttons = document.createElement("div");
-buttons.id = "buttons";
+buttons.classList.add(buttonsClass);
 document.body.append(buttons);
 buttons.append(...buttonsParams.map(UI.Button));
 
 document.body.append(
     UI.ButtonGroup([
         UI.Button(buttonsParams.at(0)),
-        UI.Button(buttonsParams.at(3)),
-    ]),
+        UI.Button(buttonsParams.at(3))
+    ])
 );
 
 const badgesParams: Parameters<typeof UI.Badge>[0][] = [
     {
-        text: "Badge",
+        text: "Badge"
     },
     {
         text: "Badge",
-        type: "success",
+        type: "success"
     },
     {
         text: "Badge",
-        type: "warning",
+        type: "warning"
     },
     {
         text: "Badge",
-        type: "error",
+        type: "error"
     },
     {
         text: "Badge",
-        type: "info",
+        type: "info"
     },
     {
         text: "Badge",
-        type: "info-2",
-    },
+        type: "info-2"
+    }
 ];
 
 const badges = document.createElement("div");
-badges.id = "badges";
+badges.classList.add(badgesClass);
 document.body.append(badges);
 badges.append(...badgesParams.map(UI.Badge));
 
@@ -100,47 +106,47 @@ const inputPredictive = UI.InputPredictive({
         return predictions
             .filter((p) => p.startsWith(value))
             .map((p) => p.slice(value.length));
-    },
+    }
 });
 
 const inputSelect = UI.InputSelect({
-    label: "Input Select",
+    label: "Input Select"
 });
 inputSelect.options.add(
     {
-        name: "Option 1",
+        name: "Option 1"
     },
     {
-        name: "Option 2",
+        name: "Option 2"
     },
     {
-        name: "Option 3",
-    },
+        name: "Option 3"
+    }
 );
 
 const inputs = [
     inputPredictive,
     UI.InputText({
-        label: "Input Text",
+        label: "Input Text"
     }),
     UI.InputText({
         label: "Input Text",
-        clear: true,
+        clear: true
     }),
     UI.InputFile({
-        label: "Input File",
+        label: "Input File"
     }),
     UI.InputSwitch({
-        label: "Input Switch",
+        label: "Input Switch"
     }),
     UI.InputCheckbox(),
     UI.InputRadio(),
-    inputSelect,
+    inputSelect
 ];
 
 form.append(...inputs.map(({ container }) => container));
 const resetButton = UI.Button({
-    text: "Reset",
+    text: "Reset"
 });
 resetButton.onclick = (e) => {
     e.preventDefault();
@@ -149,13 +155,13 @@ resetButton.onclick = (e) => {
 form.append(resetButton);
 
 const dialogButton = UI.Button({
-    text: "Open Dialog",
+    text: "Open Dialog"
 });
 dialogButton.onclick = () => {
     const content = document.createElement("div");
     content.innerHTML = `<h1>Dialog</h1>`;
     const closeButton = UI.Button({
-        text: "Close",
+        text: "Close"
     });
     content.append(closeButton);
     closeButton.onclick = UI.Dialog(content).remove;
@@ -163,159 +169,158 @@ dialogButton.onclick = () => {
 document.body.append(dialogButton);
 
 const loaderContainer = document.createElement("div");
-loaderContainer.id = "loader";
+loaderContainer.classList.add(loaderClass);
 loaderContainer.append(UI.Loader());
 document.body.append(loaderContainer);
 
 const messagesParams: Parameters<typeof UI.Message>[0][] = [
     {
-        text: "A message",
+        text: "A message"
     },
     {
         text: "A warning message",
-        style: "warning",
-    },
+        style: "warning"
+    }
 ];
 
 const messagesContainer = document.createElement("div");
-messagesContainer.id = "messages";
 document.body.append(messagesContainer);
 messagesContainer.append(...messagesParams.map(UI.Message));
 
 const popoverButtons = [
     UI.Button({
-        text: "Top Left",
+        text: "Top Left"
     }),
     UI.Button({
-        text: "Top Center",
+        text: "Top Center"
     }),
     UI.Button({
-        text: "Top Right",
+        text: "Top Right"
     }),
     UI.Button({
-        text: "Center Left",
+        text: "Center Left"
     }),
     UI.Button({
-        text: "Center Center",
+        text: "Center Center"
     }),
     UI.Button({
-        text: "Center Right",
+        text: "Center Right"
     }),
     UI.Button({
-        text: "Bottom Left",
+        text: "Bottom Left"
     }),
     UI.Button({
-        text: "Bottom Center",
+        text: "Bottom Center"
     }),
     UI.Button({
-        text: "Bottom Right",
-    }),
+        text: "Bottom Right"
+    })
 ];
 
 const popoverContent = UI.ButtonGroup([
     UI.Button({
-        text: "Button",
-    }),
+        text: "Button"
+    })
 ]);
 
 const popoverParams: Parameters<typeof UI.Popover>[0][] = [
     {
         align: {
             y: "top",
-            x: "left",
+            x: "left"
         },
         anchor: popoverButtons[0],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "top",
-            x: "center",
+            x: "center"
         },
         anchor: popoverButtons[1],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "top",
-            x: "right",
+            x: "right"
         },
         anchor: popoverButtons[2],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "center",
-            x: "left",
+            x: "left"
         },
         anchor: popoverButtons[3],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "center",
-            x: "center",
+            x: "center"
         },
         anchor: popoverButtons[4],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "center",
-            x: "right",
+            x: "right"
         },
         anchor: popoverButtons[5],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "bottom",
-            x: "left",
+            x: "left"
         },
         anchor: popoverButtons[6],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "bottom",
-            x: "center",
+            x: "center"
         },
         anchor: popoverButtons[7],
-        content: popoverContent,
+        content: popoverContent
     },
     {
         align: {
             y: "bottom",
-            x: "right",
+            x: "right"
         },
         anchor: popoverButtons[8],
-        content: popoverContent,
-    },
+        content: popoverContent
+    }
 ];
 
 const popoverButtonsContainer = document.createElement("div");
-popoverButtonsContainer.id = "popover";
+popoverButtonsContainer.classList.add(popoverClass);
 document.body.append(popoverButtonsContainer);
 popoverButtonsContainer.append(
     ...popoverButtons.map((b, i) => {
         b.onclick = () => UI.Popover(popoverParams[i]);
         return b;
-    }),
+    })
 );
 
-const itemWithProgress = ListItem({
+const itemWithProgress = UI.ListItem({
     content: "List item with progress",
-    withProgress: true,
+    withProgress: true
 });
 const listItems = [
-    ListItem({
-        content: "Basic list item",
+    UI.ListItem({
+        content: "Basic list item"
     }),
-    itemWithProgress,
+    itemWithProgress
 ];
 
 const list = document.createElement("div");
-list.id = "list";
+list.classList.add(listClass);
 listItems.forEach((i) => {
     if (i instanceof HTMLElement) {
         list.append(i);
