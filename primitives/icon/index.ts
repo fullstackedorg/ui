@@ -1,3 +1,5 @@
+import { iconClass } from "./index.s";
+
 let iconsDirectory: string = "/node_modules/@fullstacked/ui/icons";
 
 export function setIconsDirectory(directory: string) {
@@ -6,7 +8,7 @@ export function setIconsDirectory(directory: string) {
 
 export function Icon(name: string) {
     const container = document.createElement("div");
-    container.classList.add("icon");
+    container.classList.add(iconClass);
     loadIcon(name).then((svgData) => (container.innerHTML = svgData));
     return container;
 }

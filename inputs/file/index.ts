@@ -1,12 +1,14 @@
 import { Button } from "../../primitives/button";
 import { startObserverInterval } from "../observer";
 import { InputOpts } from "../text";
+import { inputClass } from "../index.s";
+import { inputFileClass } from "./index.s";
 
 export function InputFile(opts?: Partial<InputOpts>) {
     startObserverInterval();
 
     const container = document.createElement("div");
-    container.classList.add("input-file");
+    container.classList.add(inputClass, inputFileClass);
 
     if (opts?.label) {
         container.innerHTML = `<label>${opts.label}</label>`;

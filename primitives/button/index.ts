@@ -3,14 +3,16 @@ This file must follow the figma design
 https://www.figma.com/design/xb3JBRCvEWpbwGda03T5QQ/Mockups?node-id=6-67
 */
 
+import "./index.s";
 import { Icon } from "../icon";
+import { buttonStyles, buttonColors } from "./index.s";
 
 type ButtonOpts = {
     iconLeft: string;
     iconRight: string;
     text: string;
-    style: "default" | "text" | "icon-small" | "icon-large";
-    color: "red";
+    style: (typeof buttonStyles)[number];
+    color: (typeof buttonColors)[number];
 };
 
 export function Button(opts?: Partial<ButtonOpts>) {
@@ -38,4 +40,3 @@ export function Button(opts?: Partial<ButtonOpts>) {
 
     return button;
 }
-

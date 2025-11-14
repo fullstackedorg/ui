@@ -1,10 +1,16 @@
+import {
+    listItemProgressClass,
+    listItemInnerClass,
+    listItemClass
+} from "./index.s";
+
 type ListItemOpts = {
     content: HTMLElement | string;
     withProgress: boolean;
 };
 
 export function ListItem(
-    opts: Partial<ListItemOpts> & { withProgress: true },
+    opts: Partial<ListItemOpts> & { withProgress: true }
 ): {
     container: HTMLDivElement;
     setProgress: (progress: number) => void; // 0 - 1
@@ -12,10 +18,10 @@ export function ListItem(
 export function ListItem(opts: Partial<ListItemOpts>): HTMLDivElement;
 export function ListItem(opts: Partial<ListItemOpts>) {
     const container = document.createElement("div");
-    container.classList.add("list-item");
+    container.classList.add(listItemClass);
 
     const inner = document.createElement("div");
-    inner.classList.add("inner");
+    inner.classList.add(listItemInnerClass);
     container.append(inner);
 
     if (opts?.content) {
@@ -24,7 +30,7 @@ export function ListItem(opts: Partial<ListItemOpts>) {
 
     if (opts?.withProgress) {
         const progressBar = document.createElement("div");
-        progressBar.classList.add("progress");
+        progressBar.classList.add(listItemProgressClass);
         container.append(progressBar);
 
         const setProgress = (p: number) => {
