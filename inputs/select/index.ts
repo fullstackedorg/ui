@@ -4,7 +4,7 @@ import { inputClass } from "../index.s";
 import {
     invalidClass,
     selectContainerClass,
-    inputSelectClass,
+    inputSelectClass
 } from "./index.s";
 
 export type InputSelectOpts = {
@@ -94,7 +94,7 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
         },
         onchange: (item?: string, index?: number): any => {
             return { item, index };
-        },
+        }
     };
 
     select.onchange = () => {
@@ -115,17 +115,33 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
             add(...options: InputSelectOption[]) {
                 options.forEach(addOptions);
             },
+            set(...options: InputSelectOption[]) {
+                const currentValue = selectAPI.value;
+
+                select
+                    .querySelectorAll("option")
+                    .forEach((e, i) => (i === 0 ? undefined : e.remove()));
+                selectOptions.splice(0, selectOptions.length);
+
+                options.forEach(addOptions);
+
+                selectAPI.value = currentValue;
+            },
             remove(nameOrId: string) {
                 const indexOf = indexOfIdOrName(nameOrId);
                 if (indexOf === -1) return;
 
-                const selectedIndex = select.selectedIndex - 1;
-                if (indexOf === selectedIndex) {
-                    select.selectedIndex = 0;
-                }
+                const currentValue = selectAPI.value;
+
+                select
+                    .querySelectorAll("option")
+                    .item(indexOf + 1)
+                    .remove();
 
                 selectOptions.splice(indexOf, 1);
-            },
-        },
+
+                selectAPI.value = currentValue;
+            }
+        }
     };
 }
