@@ -143,8 +143,15 @@ const inputs = [
     UI.InputRadio(),
     inputSelect
 ];
-
 form.append(...inputs.map(({ container }) => container));
+
+const openSelectButton = UI.Button({
+    text: "Open Select"
+});
+openSelectButton.type = "button";
+openSelectButton.onclick = inputSelect.select.open;
+form.append(openSelectButton);
+
 const resetButton = UI.Button({
     text: "Reset"
 });

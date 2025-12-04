@@ -94,6 +94,13 @@ export function InputSelect(opts: Partial<InputSelectOpts>) {
         },
         onchange: (item?: string, index?: number): any => {
             return { item, index };
+        },
+        open(e: MouseEvent | TouchEvent) {
+            const event =
+                e instanceof MouseEvent
+                    ? new MouseEvent("mousedown")
+                    : new TouchEvent("touchdown");
+            select.dispatchEvent(event);
         }
     };
 
